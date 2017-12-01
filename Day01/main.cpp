@@ -6,9 +6,9 @@ using std::endl;
 using std::strlen;
 
 static unsigned int calc_sum(
-    const char* input,
-    size_t      input_len,
-    size_t      offset)
+        const char* input,
+        size_t      input_len,
+        size_t      offset)
 {
     unsigned int sum = 0u;
 
