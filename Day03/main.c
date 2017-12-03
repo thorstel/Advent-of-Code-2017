@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <limits.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -159,13 +160,13 @@ static void print_grid(const unsigned int* grid, size_t width)
     {
         for (size_t j = 0; j < width; ++j)
         {
-            printf("%6u ", grid[(i * width) + j]);
+            printf("%10u ", grid[(i * width) + j]);
         }
         printf("\n");
     }
 }
 
-static int build_spiral(size_t radius, unsigned int threshold)
+static int64_t build_spiral(size_t radius, unsigned int threshold)
 {
     const size_t  width = 1u + (2u * radius);
     unsigned int* grid  = NULL;
@@ -204,7 +205,7 @@ static int build_spiral(size_t radius, unsigned int threshold)
 
     print_grid(grid, width);
     free(grid);
-    return (curr_value > threshold) ? (int)curr_value : -1;
+    return (curr_value > threshold) ? (int64_t)curr_value : -1;
 }
 
 int main(int argc, const char* argv[])
@@ -217,7 +218,7 @@ int main(int argc, const char* argv[])
 
     unsigned int input = (unsigned int)atoi(argv[1]);
     printf("dist = %u\n", calc_dist(input));
-    printf("next = %d\n", build_spiral((argc > 2 ? atoi(argv[2]) : 5), input));
+    printf("next = %I64d\n", build_spiral((argc > 2 ? atoi(argv[2]) : 5), input));
     return 0;
 }
 
