@@ -51,25 +51,18 @@ static unsigned int calc_dist(unsigned int dest)
  *                               PART 2                               *
  **********************************************************************/
 
-enum direction { MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP };
+enum direction
+{
+    MOVE_RIGHT   = 0,
+    MOVE_UP      = 1,
+    MOVE_LEFT    = 2,
+    MOVE_DOWN    = 3,
+    MOVE_DIR_MAX = 4
+};
 
 static inline enum direction next_dir(enum direction dir)
 {
-    switch (dir)
-    {
-    case MOVE_RIGHT:
-        return MOVE_UP;
-    case MOVE_UP:
-        return MOVE_LEFT;
-    case MOVE_LEFT:
-        return MOVE_DOWN;
-    case MOVE_DOWN:
-        return MOVE_RIGHT;
-    default:
-        assert(false);
-    }
-
-    return MOVE_RIGHT; /* unreachable */
+    return ((dir + 1) % MOVE_DIR_MAX);
 }
 
 static inline bool pos_in_bounds(int pos_x, int pos_y, size_t width)
