@@ -51,7 +51,7 @@ static unsigned int calc_dist(unsigned int dest)
  *                               PART 2                               *
  **********************************************************************/
 
-#define POS(X, Y, W) ((Y * W) + X)
+#define POS(X, Y, W) (((Y) * (W)) + (X))
 
 enum direction
 {
