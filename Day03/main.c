@@ -51,6 +51,8 @@ static unsigned int calc_dist(unsigned int dest)
  *                               PART 2                               *
  **********************************************************************/
 
+#define POS(X, Y, W) ((Y * W) + X)
+
 enum direction
 {
     MOVE_RIGHT   = 0,
@@ -86,7 +88,7 @@ static inline unsigned int neighbor_sum(
         {
             if (pos_in_bounds((pos_x + j), (pos_y + i), width))
             {
-                sum += grid[((pos_y + i) * width) + (pos_x + j)];
+                sum += grid[POS((pos_x + j), (pos_y + i), width)];
             }
         }
     }
@@ -139,7 +141,7 @@ static inline bool change_dir(
 
     if (pos_in_bounds((pos_x + dir_x), (pos_y + dir_y), width))
     {
-        return (grid[((pos_y + dir_y) * (int)width) + (pos_x + dir_x)] == 0u);
+        return (grid[POS((pos_x + dir_x), (pos_y + dir_y), width)] == 0u);
     }
     else
     {
@@ -149,11 +151,11 @@ static inline bool change_dir(
 
 static void print_grid(const unsigned int* grid, size_t width)
 {
-    for (size_t i = 0; i < width; ++i)
+    for (size_t y = 0; y < width; ++y)
     {
-        for (size_t j = 0; j < width; ++j)
+        for (size_t x = 0; x < width; ++x)
         {
-            printf("%10u ", grid[(i * width) + j]);
+            printf("%10u ", grid[POS(x, y, width)]);
         }
         printf("\n");
     }
@@ -177,7 +179,7 @@ static int64_t build_spiral(size_t radius, unsigned int threshold)
     int            dir_y      = 0;
 
     direction_delta(curr_dir, &dir_x, &dir_y);
-    grid[(pos_y * width) + pos_x] = 1;
+    grid[POS(pos_x, pos_y, width)] = 1;
 
     while (pos_in_bounds((pos_x + dir_x), (pos_y + dir_y), width))
     {
@@ -185,7 +187,7 @@ static int64_t build_spiral(size_t radius, unsigned int threshold)
         pos_y += dir_y;
 
         curr_value = neighbor_sum(grid, pos_x, pos_y, width);
-        grid[(pos_y * width) + pos_x] = curr_value;
+        grid[POS(pos_x, pos_y, width)] = curr_value;
 
         if (change_dir(grid, curr_dir, pos_x, pos_y, width))
         {
