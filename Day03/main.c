@@ -98,8 +98,8 @@ static inline unsigned int neighbor_sum(
 
 static inline void direction_delta(
         enum direction dir,
-        int*           delta_x,
-        int*           delta_y)
+        int* const     delta_x,
+        int* const     delta_y)
 {
     switch (dir)
     {
