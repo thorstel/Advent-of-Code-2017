@@ -8,10 +8,10 @@ static int input[2048];
 static size_t input_size = 0u;
 static const size_t input_max_size = (sizeof(input) / sizeof(int));
 
-static inline bool fill_array(const char* s, bool newline)
+static inline bool fill_array(char* s, size_t len, bool newline)
 {
     (void)newline; /* unused */
-    if (s[0] != '\0') { input[input_size++] = atoi(s); }
+    if (len != 0) { input[input_size++] = atoi(s); }
     return input_size < input_max_size;
 }
 

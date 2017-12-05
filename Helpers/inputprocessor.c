@@ -5,7 +5,7 @@
 static char buffer[256];
 static const size_t buffer_size = sizeof(buffer);
 
-bool process_input(FILE* input, bool (*process)(const char*, bool))
+bool process_input(FILE* input, bool (*process)(char*, size_t, bool))
 {
     if ((input == NULL) || (process == NULL)) 
     {
@@ -24,8 +24,8 @@ bool process_input(FILE* input, bool (*process)(const char*, bool))
         else
         {
             buffer[i] = '\0';
+            if (!process(buffer, i, ((char)c == '\n'))) { return false; }
             i = 0;
-            if (!process(buffer, ((char)c == '\n'))) { return false; }
         }
     }
 
