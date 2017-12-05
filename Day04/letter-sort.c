@@ -8,9 +8,9 @@ static int cmp_chars(const void* arg1, const void* arg2)
     const char c1 = *(const char*)arg1;
     const char c2 = *(const char*)arg2;
 
-    if      (c1 < c2) return -1;
-    else if (c1 > c2) return  1;
-    else              return  0;
+    if      (c1 < c2) { return -1; }
+    else if (c1 > c2) { return  1; }
+    else              { return  0; }
 }
 
 int main(void)
