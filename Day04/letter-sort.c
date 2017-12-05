@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int cmp_chars(const void* arg1, const void* arg2)
+#include "../Helpers/inputprocessor.h"
+
+static inline int cmp_chars(const void* arg1, const void* arg2)
 {
     const char c1 = *(const char*)arg1;
     const char c2 = *(const char*)arg2;
@@ -13,32 +15,26 @@ static int cmp_chars(const void* arg1, const void* arg2)
     else              { return  0; }
 }
 
-int main(void)
+static inline bool reprint_words(char* str, size_t len, bool newline)
 {
-    const size_t buf_size = 64;
-    char         buf[buf_size];
-
-    int    c;
-    size_t i = 0;
-    while (((c = getc(stdin)) != EOF) && (i < buf_size))
+    if (len > 0)
     {
-        if (isalnum(c))
-        {
-            buf[i++] = (char)c;
-        }
-        else if (i > 0)
-        {
-            buf[i] = '\0';
-            qsort(buf, i, sizeof(char), cmp_chars);
-            printf("%s ", buf);
-            i = 0;
-        }
-        else { /* ignore other characters */ }
-
-        if ((char)c == '\n') { putc('\n', stdout); }
+        qsort(str, len, sizeof(char), cmp_chars);
+        printf("%s ", str);
     }
 
-    assert(i < buf_size);
+    if (newline) { putc('\n', stdout); }
+    return true;
+}
+
+int main(void)
+{
+    if (!process_input(stdin, reprint_words))
+    {
+        puts("Failed to process input!");
+        return 1;
+    }
+
     return 0;
 }
 
