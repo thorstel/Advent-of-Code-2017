@@ -5,7 +5,7 @@
 
 #include "../Helpers/inputprocessor.h"
 
-static inline int cmp_chars(const void* arg1, const void* arg2)
+static int cmp_chars(const void* arg1, const void* arg2)
 {
     const char c1 = *(const char*)arg1;
     const char c2 = *(const char*)arg2;
@@ -15,7 +15,7 @@ static inline int cmp_chars(const void* arg1, const void* arg2)
     else              { return  0; }
 }
 
-static inline bool reprint_words(char* str, size_t len, bool newline)
+static bool reprint_words(char* str, size_t len, bool newline)
 {
     if (len > 0)
     {

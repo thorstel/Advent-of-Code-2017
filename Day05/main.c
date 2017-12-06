@@ -1,14 +1,14 @@
 #include <stdbool.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "../Helpers/inputprocessor.h"
 
-static int input[2048];
-static size_t input_size = 0u;
+static int          input[2048];
+static size_t       input_size     = 0u;
 static const size_t input_max_size = (sizeof(input) / sizeof(int));
 
-static inline bool fill_array(char* s, size_t len, bool newline)
+static bool fill_array(char* s, size_t len, bool newline)
 {
     (void)newline; /* unused */
     if (len != 0) { input[input_size++] = atoi(s); }
