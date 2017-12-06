@@ -15,8 +15,7 @@ int main(void)
     }
 
     std::map<std::vector<int>, size_t> known;
-    auto total_distributions = 0u;
-    while (true)
+    for (size_t count = 0u; known.emplace(banks, count).second; ++count)
     {
         auto to_distribute = banks[max_pos];
         auto curr_pos      = (max_pos + 1) % bank_size;
@@ -34,15 +33,10 @@ int main(void)
             curr_pos = (curr_pos + 1) % bank_size;
             --to_distribute;
         }
-
-        ++total_distributions;
-        if (known[banks] > 0u) { break; }
-        known[banks] = total_distributions;
     }
 
-    std::cout << "Redistributions = " << total_distributions << std::endl;
-    std::cout << "Cycles = "
-              << (total_distributions - known[banks]) << std::endl;
+    std::cout << "Redistributions = " << known.size() << std::endl;
+    std::cout << "Cycles = " << (known.size() - known[banks]) << std::endl;
     return 0;
 }
 
