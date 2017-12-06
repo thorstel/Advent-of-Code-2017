@@ -13,9 +13,14 @@ int main(void)
     {
         auto iter = std::max_element(banks.begin(), banks.end());
         const auto to_distribute = *iter;
-        *iter = 0;
 
-        for (auto i = 0; i < to_distribute; ++i)
+        *iter = 0;
+        for (auto& elem : banks)
+        {
+            elem += (to_distribute / banks.size());
+        }
+
+        for (auto i = 0u; i < (to_distribute % banks.size()); ++i)
         {
             if (++iter == banks.end()) { iter = banks.begin(); }
             *iter += 1;
