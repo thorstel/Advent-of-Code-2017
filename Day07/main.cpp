@@ -1,13 +1,15 @@
 #include <algorithm>
 #include <cctype>
 #include <iostream>
-#include <map>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
-static std::map<std::string, std::pair<int, std::vector<std::string>>> towers;
+static std::unordered_map<
+        std::string,
+        std::pair<int, std::vector<std::string>>> towers;
 
 static int get_total_weight(const std::string& name)
 {
