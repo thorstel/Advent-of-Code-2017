@@ -69,9 +69,9 @@ static void run_day(Day d, std::ostream& outs)
     std::chrono::duration<double, std::milli> dur{ end - start };
 
     outs << std::endl << "Execution time: ";
-    outs.precision(2);
+    outs.precision(3);
     outs.setf(std::ios::fixed, std::ios::floatfield);
-    outs << dur.count() << "ms" << std::endl << std::endl;
+    outs << dur.count() << " ms" << std::endl << std::endl;
 }
 
 static void select_day(Day d, std::istream& ins, std::ostream& outs)
