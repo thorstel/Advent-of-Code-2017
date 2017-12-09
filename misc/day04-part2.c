@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../Helpers/inputprocessor.h"
+#include "inputprocessor.h"
 
 static int cmp_chars(const void* arg1, const void* arg2)
 {

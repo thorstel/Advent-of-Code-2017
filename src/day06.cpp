@@ -4,9 +4,12 @@
 #include <map>
 #include <vector>
 
-int main(void)
+#include "solution.hpp"
+
+template<>
+void solve<Day06>(std::istream& ins, std::ostream& outs)
 {
-    std::vector<int> banks { std::istream_iterator<int> { std::cin }, {} };
+    std::vector<int> banks { std::istream_iterator<int> { ins }, {} };
     std::map<std::vector<int>, size_t> known;
 
     for (size_t count = 0u; known.emplace(banks, count).second; ++count)
@@ -27,8 +30,7 @@ int main(void)
         }
     }
 
-    std::cout << "Redistributions = " << known.size() << std::endl;
-    std::cout << "Cycles = " << (known.size() - known[banks]) << std::endl;
-    return 0;
+    outs << "Redistributions = " << known.size() << std::endl
+         << "Cycles = " << (known.size() - known[banks]) << std::endl;
 }
 

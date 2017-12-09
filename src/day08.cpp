@@ -4,13 +4,16 @@
 #include <string>
 #include <unordered_map>
 
-int main(void)
+#include "solution.hpp"
+
+template<>
+void solve<Day08>(std::istream& ins, std::ostream& outs)
 {
     std::unordered_map<std::string, int> regs;
     std::string reg1, reg2, op, comp;
     int val1, val2, total_max{INT_MIN};
 
-    while (std::cin >> reg1 >> op >> val1 >> reg2 >> reg2 >> comp >> val2)
+    while (ins >> reg1 >> op >> val1 >> reg2 >> reg2 >> comp >> val2)
     {
         if (((comp == ">=") && (regs[reg2] >= val2)) ||
             ((comp == ">")  && (regs[reg2] > val2))  ||
@@ -33,8 +36,7 @@ int main(void)
             [](const auto& a1, const auto& a2) {
                 return a1.second < a2.second;
             });
-    std::cout << "Max: [" << max->first << "] = " << max->second << std::endl;
-    std::cout << "Highest overall value = " << total_max << std::endl;
-    return 0;
+    outs << "Max: [" << max->first << "] = " << max->second << std::endl
+         << "Highest overall value = " << total_max << std::endl;
 }
 

@@ -1,6 +1,9 @@
 #include <iostream>
 
-int main(void)
+#include "solution.hpp"
+
+template<>
+void solve<Day09>(std::istream& ins, std::ostream& outs)
 {
     char c;
     int  group_depth   = 0;
@@ -9,7 +12,7 @@ int main(void)
     bool is_garbage    = false;
     bool cancel_next   = false;
 
-    while (std::cin >> c)
+    while (ins >> c)
     {
         if      (cancel_next)              { cancel_next = false;          }
         else if (c == '!')                 { cancel_next = true;           }
@@ -21,8 +24,7 @@ int main(void)
         else                               { /* ignore everything else */  }
     }
 
-    std::cout << "Total Score = " << total_score << std::endl;
-    std::cout << "Garbage Count = " << garbage_count << std::endl;
-    return 0;
+    outs << "Total Score = " << total_score << std::endl
+         << "Garbage Count = " << garbage_count << std::endl;
 }
 

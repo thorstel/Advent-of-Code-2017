@@ -7,29 +7,33 @@
 #include <utility>
 #include <vector>
 
+#include "solution.hpp"
+
 static std::unordered_map<
         std::string,
         std::pair<int, std::vector<std::string>>> towers;
 
-static int get_total_weight(const std::string& name)
+static int get_total_weight(const std::string& name, std::ostream& outs)
 {
     std::vector<int> weights;
     std::for_each(
             towers[name].second.begin(),
             towers[name].second.end(),
-            [&](const auto& n) { weights.push_back(get_total_weight(n)); });
+            [&](const auto& n) {
+                weights.push_back(get_total_weight(n, outs));
+            });
 
     if ((weights.size() > 0) &&
         (!std::equal(weights.begin() + 1, weights.end(), weights.begin())))
     {
-        std::cout << "Error: " << name << " (" << towers[name].first
-                  << ") is imbalanced! Weights: ";
+        outs << "Error: " << name << " (" << towers[name].first
+             << ") is imbalanced! Weights: ";
         for (auto i = 0u; i < towers[name].second.size(); ++i)
         {
-            std::cout << towers[name].second[i] << " (" << weights[i] << ") ";
+            outs << towers[name].second[i] << " (" << weights[i] << ") ";
         }
 
-        std::cout << std::endl;
+        outs << std::endl;
     }
 
     towers[name].second.clear();
@@ -40,10 +44,11 @@ static int get_total_weight(const std::string& name)
     return towers[name].first;
 }
 
-int main(void)
+template<>
+void solve<Day07>(std::istream& ins, std::ostream& outs)
 {
     // Input handling
-    for (std::string line; std::getline(std::cin, line);)
+    for (std::string line; std::getline(ins, line);)
     {
         std::istringstream iss{ line };
         std::string name;
@@ -73,7 +78,6 @@ int main(void)
     std::for_each(
             towers.begin(),
             towers.end(),
-            [](auto& t) { (void)get_total_weight(t.first); });
-    return 0;
+            [&](auto& t) { (void)get_total_weight(t.first, outs); });
 }
 
