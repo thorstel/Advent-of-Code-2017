@@ -1,10 +1,13 @@
 #include <algorithm>
 #include <array>
+#include <functional>
+#include <iomanip>
 #include <iostream>
+#include <iterator>
+#include <numeric>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <iomanip>
 
 #include "solution.hpp"
 
@@ -72,19 +75,17 @@ void solve<Day10>(std::istream& ins, std::ostream& outs)
         hash_round(list, inputs_p2, pos, skip_size);
     }
 
-    pos = 0;
-    std::array<int, 16> dense_hash{0};
-    for (int& elem : dense_hash)
-    {
-        for (int i = 0; i < 16; ++i) { elem ^= list[pos++]; }
-    }
-
     // setup hex output formatting
     auto format = outs.flags();
     outs << std::setfill('0') << std::hex;
 
-    outs << "(Part 2) Hash = ";
-    for (int i : dense_hash) { outs << std::setw(2) << i; }
+    outs << "(Part 2) Hash   = ";
+    for (auto it = list.begin(); it < list.end(); std::advance(it, 16))
+    {
+        outs << std::setw(2)
+             << std::accumulate(it, (it + 16), 0, std::bit_xor<void>());
+    }
+
     outs << std::endl;
 
     // reset output formatting
