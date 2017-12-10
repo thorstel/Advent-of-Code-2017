@@ -1,14 +1,4 @@
-#include <algorithm>
-#include <array>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <iterator>
-#include <numeric>
-#include <sstream>
-#include <string>
-#include <vector>
-
+#include "default_includes.hpp"
 #include "solution.hpp"
 
 static inline void hash_round(

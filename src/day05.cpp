@@ -1,7 +1,4 @@
-#include <iostream>
-#include <iterator>
-#include <vector>
-
+#include "default_includes.hpp"
 #include "solution.hpp"
 
 template<>

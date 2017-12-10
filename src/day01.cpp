@@ -1,6 +1,4 @@
-#include <iostream>
-#include <string>
-
+#include "default_includes.hpp"
 #include "solution.hpp"
 
 static unsigned int calc_sum(const std::string& input, size_t offset)

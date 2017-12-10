@@ -1,9 +1,6 @@
-#include <algorithm>
 #include <cassert>
-#include <iostream>
-#include <string>
-#include <unordered_map>
 
+#include "default_includes.hpp"
 #include "solution.hpp"
 
 template<>

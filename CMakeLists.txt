@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(inc)
 
 add_executable(aoc17
+    inc/default_includes.hpp
     inc/solution.hpp
     src/day01.cpp
     src/day02.cpp

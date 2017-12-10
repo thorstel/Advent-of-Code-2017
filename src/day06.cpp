@@ -1,9 +1,6 @@
-#include <algorithm>
-#include <iostream>
-#include <iterator>
 #include <map>
-#include <vector>
 
+#include "default_includes.hpp"
 #include "solution.hpp"
 
 template<>

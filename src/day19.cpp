@@ -1,5 +1,4 @@
-#include <iostream>
-
+#include "default_includes.hpp"
 #include "solution.hpp"
 
 template<>
