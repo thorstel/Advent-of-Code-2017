@@ -37,17 +37,12 @@ template<>
 void solve<Day10>(std::istream& ins, std::ostream& outs)
 {
     std::array<int,256> list;
-    auto list_setup = [](auto& list) {
-        for (int i = 0; i < static_cast<int>(list.max_size()); ++i) {
-            list[i] = i;
-        }
-    };
+    std::iota(list.begin(), list.end(), 0);
 
     std::string input;
     ins >> input;
 
     // Part 1
-    list_setup(list);
     std::istringstream iss{input};
     std::vector<int>   inputs_p1;
     for (std::string s; std::getline(iss, s, ',');)
@@ -60,7 +55,7 @@ void solve<Day10>(std::istream& ins, std::ostream& outs)
     outs << "(Part 1) Result = " << (list[0] * list[1]) << std::endl;
 
     // Part 2
-    list_setup(list);
+    std::iota(list.begin(), list.end(), 0);
     std::vector<int> inputs_p2;
     std::for_each(
             input.begin(),
