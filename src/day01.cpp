@@ -6,7 +6,6 @@
 static unsigned int calc_sum(const std::string& input, size_t offset)
 {
     unsigned int sum = 0u;
-
     for (auto i = 0u; i < input.size(); ++i)
     {
         if (input[i] == input[(i + offset) % input.size()])

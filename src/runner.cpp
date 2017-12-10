@@ -66,7 +66,7 @@ static void run_day(Day d, std::ostream& outs)
     auto start = timer::now();
     select_day(d, ins, outs);
     auto end   = timer::now();
-    std::chrono::duration<double, std::milli> dur{ end - start };
+    std::chrono::duration<double, std::milli> dur{end - start};
 
     outs << std::endl << "Execution time: ";
     outs.precision(3);

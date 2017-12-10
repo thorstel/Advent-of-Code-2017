@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../Helpers/inputprocessor.h"
+#include "inputprocessor.h"
 
 static int          input[2048];
 static size_t       input_size     = 0u;
@@ -18,7 +18,7 @@ static bool fill_array(char* s, size_t len, bool newline)
 /* call with argument '2' to execute part 2 */
 int main(int argc, const char* argv[])
 {
-    FILE* fp = fopen("input.txt", "r");
+    FILE* fp = fopen("../inputs/Day05.txt", "r");
     if (fp == NULL)
     {
         puts("Failed to open file!");

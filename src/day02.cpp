@@ -14,15 +14,14 @@ void solve<Day02>(std::istream& ins, std::ostream& outs)
 
     for (std::string line; std::getline(ins, line);)
     {
-        std::vector<int> input;
-        std::istringstream iss{ line };
+        std::vector<int>   input;
+        std::istringstream iss{line};
 
         for (int i; iss >> i;) { input.push_back(i); }
 
-        auto [min, max] = std::minmax_element(input.begin(), input.end());
+        auto [min, max]  = std::minmax_element(input.begin(), input.end());
         minmax_checksum += ((*max) - (*min));
-
-        div_checksum += [&] {
+        div_checksum    += [&] {
             for (auto i = input.begin(); i < input.end(); ++i)
             {
                 for (auto j = (i + 1); j < input.end(); ++j)
@@ -31,7 +30,6 @@ void solve<Day02>(std::istream& ins, std::ostream& outs)
                     else if (((*j) % (*i)) == 0) { return ((*j) / (*i)); }
                 }
             }
-
             return 0;
         }();
     }

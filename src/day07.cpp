@@ -50,7 +50,7 @@ void solve<Day07>(std::istream& ins, std::ostream& outs)
     // Input handling
     for (std::string line; std::getline(ins, line);)
     {
-        std::istringstream iss{ line };
+        std::istringstream iss{line};
         std::string name;
         std::string weight;
 

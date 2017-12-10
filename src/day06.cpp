@@ -9,7 +9,7 @@
 template<>
 void solve<Day06>(std::istream& ins, std::ostream& outs)
 {
-    std::vector<int> banks { std::istream_iterator<int> { ins }, {} };
+    std::vector<int> banks{std::istream_iterator<int>{ins}, {}};
     std::map<std::vector<int>, size_t> known;
 
     for (size_t count = 0u; known.emplace(banks, count).second; ++count)
