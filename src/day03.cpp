@@ -74,6 +74,6 @@ void solve<Day03>(std::istream& ins, std::ostream& outs)
         pos.second = y;
     }
 
-    outs << "(Part 2) Next spiral value = "<< nodes[pos] << std::endl;
+    outs << "(Part 2) Next spiral value = " << nodes[pos] << std::endl;
 }
 
