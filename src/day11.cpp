@@ -10,7 +10,7 @@
 //
 // Since we start at position (0, 0, 0), we only need the end position
 // to determine the distance.
-static inline int distance(const std::tuple<int, int, int>& pos)
+static constexpr int distance(const std::tuple<int, int, int>& pos)
 {
     const auto [x, y, z] = pos;
     return std::max({std::abs(x), std::abs(y), std::abs(z)});
