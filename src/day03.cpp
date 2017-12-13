@@ -1,9 +1,5 @@
-#include <map>
-
 #include "default_includes.hpp"
 #include "solution.hpp"
-
-using coords = std::pair<int, int>;
 
 enum Dir {
     Dir_Right,
@@ -13,22 +9,31 @@ enum Dir {
     Dir_Max
 };
 
+static constexpr int64_t coords_key(int32_t x, int32_t y)
+{
+    return (static_cast<int64_t>(*reinterpret_cast<uint32_t*>(&x)) << 32)
+        | (*reinterpret_cast<uint32_t*>(&y));
+}
+
 static constexpr Dir next_dir(Dir dir)
 {
     return static_cast<Dir>((dir + 1) % Dir_Max);
 }
 
-static int neighbor_sum(std::map<coords, int>& nodes, int x, int y)
+static int neighbor_sum(
+        std::unordered_map<int64_t, int>& nodes,
+        int32_t                           x,
+        int32_t                           y)
 {
-    static const std::array<coords, 8> deltas{{
+    static const std::array<std::pair<int32_t, int32_t>, 8> deltas{{
         { 0, 1}, {1,  0}, { 1, 1}, { 1, -1},
         {-1, 1}, {0, -1}, {-1, 0}, {-1, -1}
     }};
 
     return std::accumulate(deltas.begin(), deltas.end(), 0,
-            [&](int sum, const coords& p) {
+            [&](int sum, const std::pair<int32_t, int32_t>& p) {
                 auto [x_d, y_d] = p;
-                return sum + nodes[{(x + x_d), (y + y_d)}];
+                return sum + nodes[coords_key((x + x_d), (y + y_d))];
             });
 }
 
@@ -38,37 +43,35 @@ void solve<Day03>(std::istream& ins, std::ostream& outs)
     int input;
     ins >> input;
 
-    std::map<coords, int>       nodes;
-    std::array<coords, Dir_Max> dir_deltas;
+    std::unordered_map<int64_t, int>                 nodes;
+    std::array<std::pair<int32_t, int32_t>, Dir_Max> dir_deltas;
 
     dir_deltas[Dir_Right] = { 1,  0};
     dir_deltas[Dir_Up]    = { 0, -1};
     dir_deltas[Dir_Left]  = {-1,  0};
     dir_deltas[Dir_Down]  = { 0,  1};
 
-    auto   dir = Dir_Right;
-    coords pos = {0, 0};
-    nodes[pos] = 1;
+    auto    dir{Dir_Right};
+    int32_t x{0}, y{0};
+    nodes[coords_key(x, y)] = 1;
 
-    while (nodes[pos] < input)
+    while (nodes[coords_key(x, y)] < input)
     {
         // Next pos and calc sum of neighbors.
-        auto [x_d, y_d]  = dir_deltas[dir];
-        pos.first       += x_d;
-        pos.second      += y_d;
-        auto [x, y]      = pos;
-        nodes[pos]       = neighbor_sum(nodes, x, y);
+        auto [x_d, y_d] = dir_deltas[dir];
+        x += x_d;
+        y += y_d;
+        nodes[coords_key(x, y)] = neighbor_sum(nodes, x, y);
 
         // Check if direction needs to be changed.
-        auto [xn_d, yn_d]  = dir_deltas[next_dir(dir)];
-        pos.first         += xn_d;
-        pos.second        += yn_d;
-        if (nodes[pos] == 0) { dir = next_dir(dir); }
-
-        pos.first  = x;
-        pos.second = y;
+        auto [xn_d, yn_d] = dir_deltas[next_dir(dir)];
+        if (nodes[coords_key((x + xn_d), (y + yn_d))] == 0)
+        {
+            dir = next_dir(dir);
+        }
     }
 
-    outs << "(Part 2) Next spiral value = " << nodes[pos] << std::endl;
+    outs << "(Part 2) Next spiral value = "
+         << nodes[coords_key(x, y)] << std::endl;
 }
 
