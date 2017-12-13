@@ -13,29 +13,23 @@ enum Dir {
     Dir_Max
 };
 
-static inline Dir next_dir(Dir dir)
+static constexpr Dir next_dir(Dir dir)
 {
     return static_cast<Dir>((dir + 1) % Dir_Max);
 }
 
-static inline int neighbor_sum(std::map<coords, int>& nodes, int x, int y)
+static int neighbor_sum(std::map<coords, int>& nodes, int x, int y)
 {
-    coords neighbor_pos;
-    int    sum{0};
-    for (int i = -1; i <= 1; ++i)
-    {
-        for (int j = -1; j <= 1; ++j)
-        {
-            if ((i != 0) || (j != 0))
-            {
-                neighbor_pos.first  = (x + i);
-                neighbor_pos.second = (y + j);
-                sum += nodes[neighbor_pos];
-            }
-        }
-    }
+    static const std::array<coords, 8> deltas{{
+        { 0, 1}, {1,  0}, { 1, 1}, { 1, -1},
+        {-1, 1}, {0, -1}, {-1, 0}, {-1, -1}
+    }};
 
-    return sum;
+    return std::accumulate(deltas.begin(), deltas.end(), 0,
+            [&](int sum, const coords& p) {
+                auto [x_d, y_d] = p;
+                return sum + nodes[{(x + x_d), (y + y_d)}];
+            });
 }
 
 template<>
@@ -47,14 +41,15 @@ void solve<Day03>(std::istream& ins, std::ostream& outs)
     std::map<coords, int>       nodes;
     std::array<coords, Dir_Max> dir_deltas;
 
-    dir_deltas[Dir_Right] = std::make_pair<int, int>(1, 0);
-    dir_deltas[Dir_Up]    = std::make_pair<int, int>(0, -1);
-    dir_deltas[Dir_Left]  = std::make_pair<int, int>(-1, 0);
-    dir_deltas[Dir_Down]  = std::make_pair<int, int>(0, 1);
+    dir_deltas[Dir_Right] = { 1,  0};
+    dir_deltas[Dir_Up]    = { 0, -1};
+    dir_deltas[Dir_Left]  = {-1,  0};
+    dir_deltas[Dir_Down]  = { 0,  1};
 
-    auto pos   = std::make_pair<int, int>(0, 0);
-    auto dir   = Dir_Right;
+    auto   dir = Dir_Right;
+    coords pos = {0, 0};
     nodes[pos] = 1;
+
     while (nodes[pos] < input)
     {
         // Next pos and calc sum of neighbors.
