@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
-namespace aoc
-{
+namespace aoc {
+
 /**********************************************************************
  *                             KNOT HASH                              *
  **********************************************************************/
@@ -27,7 +27,12 @@ void knot_hash_round(
 template<typename T>
 class disjoint_sets
 {
-    struct set { T id; size_t size{0u}; };
+    struct set
+    {
+        T      id;
+        int    rank{0};
+        size_t size{0u};
+    };
 
     std::unordered_map<T, set> table;
     size_t                     num_sets{0u};
@@ -40,11 +45,19 @@ public:
         auto& s1 = find_rec(t1);
         auto& s2 = find_rec(t2);
 
-        if (s1.id != s2.id)
+        if (s1.id == s2.id) { return; }
+
+        --num_sets;
+        if (s1.rank < s2.rank)
         {
-            --num_sets;
+            s1.id    = s2.id;
+            s2.size += s1.size;
+        }
+        else
+        {
             s2.id    = s1.id;
             s1.size += s2.size;
+            if (s1.rank == s2.rank) { ++s1.rank; }
         }
     }
 
@@ -75,6 +88,6 @@ private:
     }
 };
 
-}
+}  // namespace aoc
 #endif  // AOC_UTILITY_H_
 
