@@ -1,3 +1,5 @@
+#include <future>
+
 #include "default_includes.hpp"
 #include "solution.hpp"
 
@@ -28,28 +30,33 @@ void solve<Day15>(std::istream& ins, std::ostream& outs)
     const uint64_t input1{289u};
     const uint64_t input2{629u};
 
-    uint64_t val1{input1};
-    uint64_t val1_p2{input1};
-    uint64_t val2{input2};
-    uint64_t val2_p2{input2};
-    size_t   matches{0u};
-    size_t   matches_p2{0u};
-
-    for (auto i = 0; i < 40000000; ++i)
-    {
-        val1 = gen_next<16807>(val1);
-        val2 = gen_next<48271>(val2);
-        if (is_match(val1, val2)) { ++matches; }
-
-        if (i < 5000000)
+    // Need the code duplication here so that the generator functions
+    // are being inlined.
+    auto exec_part1 = [](uint64_t input1, uint64_t input2) -> size_t {
+        size_t matches{0u};
+        for (auto i = 0; i < 40000000; ++i)
         {
-            val1_p2 = gen_next_p2<16807, 4>(val1_p2);
-            val2_p2 = gen_next_p2<48271, 8>(val2_p2);
-            if (is_match(val1_p2, val2_p2)) { ++matches_p2; }
+            input1 = gen_next<16807>(input1);
+            input2 = gen_next<48271>(input2);
+            if (is_match(input1, input2)) { ++matches; }
         }
-    }
+        return matches;
+    };
+    auto exec_part2 = [](uint64_t input1, uint64_t input2) -> size_t {
+        size_t matches{0u};
+        for (auto i = 0; i < 5000000; ++i)
+        {
+            input1 = gen_next_p2<16807, 4>(input1);
+            input2 = gen_next_p2<48271, 8>(input2);
+            if (is_match(input1, input2)) { ++matches; }
+        }
+        return matches;
+    };
 
-    outs << "(Part 1) Number of matches = " << matches << std::endl
-         << "(Part 2) Number of matches = " << matches_p2 << std::endl;
+    auto result1 = std::async(std::launch::async, exec_part1, input1, input2);
+    auto result2 = std::async(std::launch::async, exec_part2, input1, input2);
+
+    outs << "(Part 1) Number of matches = " << result1.get() << std::endl
+         << "(Part 2) Number of matches = " << result2.get() << std::endl;
 }
 
