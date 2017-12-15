@@ -40,9 +40,9 @@ static int neighbor_sum(
 template<>
 void solve<Day03>(std::istream& ins, std::ostream& outs)
 {
-    int input;
-    ins >> input;
+    NOT_USED(ins);
 
+    int                                              input{289326};
     std::unordered_map<int64_t, int>                 nodes;
     std::array<std::pair<int32_t, int32_t>, Dir_Max> dir_deltas;
 

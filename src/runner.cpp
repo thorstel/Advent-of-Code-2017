@@ -57,11 +57,6 @@ static void run_day(Day d, std::ostream& outs)
          << " ---------------------------------" << std::endl << std::endl;
 
     std::ifstream ins{ "inputs/" + day_to_string(d) + ".txt" };
-    if (!ins.good())
-    {
-        outs << "Failed to open input file!" << std::endl << std::endl;
-        return;
-    }
 
     auto start = timer::now();
     select_day(d, ins, outs);

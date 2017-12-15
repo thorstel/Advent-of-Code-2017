@@ -7,11 +7,12 @@ static constexpr int pos_key(int x, int y) { return (x << 8) | y; }
 template<>
 void solve<Day14>(std::istream& ins, std::ostream& outs)
 {
-    aoc::disjoint_sets<int> regions;
-    std::string input;
-    ins >> input;
+    NOT_USED(ins);
 
-    int num_used{0};
+    std::string             input{"ffayrhll"};
+    aoc::disjoint_sets<int> regions;
+    int                     num_used{0};
+
     for (int y{0}; y < 128; ++y)
     {
         std::ostringstream oss;
