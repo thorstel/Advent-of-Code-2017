@@ -21,6 +21,24 @@ void knot_hash_round(
         unsigned int&                    skip);
 
 /**********************************************************************
+ *                         NUMBER GENERATION                          *
+ **********************************************************************/
+
+template<uint64_t factor>
+constexpr uint64_t generator_next(uint64_t prev)
+{
+    return ((prev * factor) % 0x7FFFFFFFu);
+}
+
+template<uint64_t factor, uint64_t criteria>
+constexpr uint64_t generator_next(uint64_t prev)
+{
+    uint64_t val = generator_next<factor>(prev);
+    while ((val % criteria) != 0u) { val = generator_next<factor>(val); }
+    return val;
+}
+
+/**********************************************************************
  *                     DISJOINT SETS / UNION FIND                     *
  **********************************************************************/
 
