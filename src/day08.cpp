@@ -33,7 +33,7 @@ void solve<Day08>(std::istream& ins, std::ostream& outs)
             [](const auto& a1, const auto& a2) {
                 return a1.second < a2.second;
             });
-    outs << "Max: [" << max->first << "] = " << max->second << std::endl
-         << "Highest overall value = " << total_max << std::endl;
+    outs << "Maximum register value = " << max->second << std::endl
+         << "Highest overall value  = " << total_max << std::endl;
 }
 

@@ -23,7 +23,7 @@ void solve<Day09>(std::istream& ins, std::ostream& outs)
         else                               { /* ignore everything else */  }
     }
 
-    outs << "Total Score = " << total_score << std::endl
+    outs << "Total Score   = " << total_score << std::endl
          << "Garbage Count = " << garbage_count << std::endl;
 }
 

@@ -27,7 +27,7 @@ void solve<Day06>(std::istream& ins, std::ostream& outs)
         }
     }
 
-    outs << "Redistributions = " << known.size() << std::endl
-         << "Cycles = " << (known.size() - known[banks]) << std::endl;
+    outs << "Redistributions  = " << known.size() << std::endl
+         << "Number of cycles = " << (known.size() - known[banks]) << std::endl;
 }
 

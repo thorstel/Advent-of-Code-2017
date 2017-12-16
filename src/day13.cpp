@@ -34,11 +34,11 @@ void solve<Day13>(std::istream& ins, std::ostream& outs)
         if (depth % ((range * 2) - 2) == 0) { severity += (depth * range); }
     }
 
-    outs << "Severity of getting caught: " << severity << std::endl;
+    outs << "Severity of getting caught = " << severity << std::endl;
 
     // Part 2
     int wait{0};
     while (is_caught(scanners, wait)) { ++wait; }
-    outs << "Delay for not being caught: " << wait << std::endl;
+    outs << "Delay for not being caught = " << wait << std::endl;
 }
 
