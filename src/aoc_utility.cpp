@@ -2,7 +2,7 @@
 #include "default_includes.hpp"
 
 /**********************************************************************
- *                             KNOT HASH                              *
+ *                             Knot Hash                              *
  **********************************************************************/
 
 std::array<unsigned int, 16> aoc::knot_hash(const std::string& input)

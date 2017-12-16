@@ -8,14 +8,14 @@
 using timer = std::chrono::high_resolution_clock;
 
 /**********************************************************************
- *                          LOCAL PROTOTYPES                          *
+ *                          Local Prototypes                          *
  **********************************************************************/
 
 static void run_day(Day d, std::ostream& outs);
 static void select_day(Day d, std::istream& ins, std::ostream& outs);
 
 /**********************************************************************
- *                          GLOBAL FUNCTIONS                          *
+ *                          Global Functions                          *
  **********************************************************************/
 
 int main(int argc, const char* argv[])
@@ -48,7 +48,7 @@ int main(int argc, const char* argv[])
 }
 
 /**********************************************************************
- *                          LOCAL FUNCTIONS                           *
+ *                          Local Functions                           *
  **********************************************************************/
 
 static void run_day(Day d, std::ostream& outs)
