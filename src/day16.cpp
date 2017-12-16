@@ -23,12 +23,10 @@ static void perform_dance(
             std::swap(dancers[pos1], dancers[pos2]);
             break;
         case 'p':
-        {
-            auto it1 = std::find(dancers.begin(), dancers.end(), elem1);
-            auto it2 = std::find(dancers.begin(), dancers.end(), elem2);
-            std::swap(*it1, *it2);
+            std::iter_swap(
+                    std::find(dancers.begin(), dancers.end(), elem1),
+                    std::find(dancers.begin(), dancers.end(), elem2));
             break;
-        }
         default:
             assert(false);
         }
