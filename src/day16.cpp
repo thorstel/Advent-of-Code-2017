@@ -36,30 +36,36 @@ static void perform_dance(
 template<>
 void solve<Day16>(std::istream& ins, std::ostream& outs)
 {
-    const std::regex                     number_regex{"\\d+"};
+    const std::regex spin_regex{R"(s(\d+))", std::regex::optimize};
+    const std::regex exchange_regex{R"(x(\d+).(\d+))", std::regex::optimize};
+
+    std::string input;
+    ins >> input; // cleanup potential whitespaces
+
+    std::istringstream                   iss{input};
     std::string                          dancers{"abcdefghijklmnop"};
     std::unordered_map<std::string, int> positions;
     positions.emplace(dancers, 0);
 
     // Record all the dance steps.
     std::vector<std::tuple<char, int, int, char, char>> dance_steps;
-    for (std::string cmd; std::getline(ins, cmd, ',');)
+    for (std::string cmd; std::getline(iss, cmd, ',');)
     {
-        auto it = std::sregex_iterator(cmd.begin(), cmd.end(), number_regex);
-        if (cmd[0] == 's')
-        {
-            const auto num = std::stoi((*it).str());
-            dance_steps.emplace_back('s', num, 0, ' ', ' ');
-        }
-        else if (cmd[0] == 'x')
-        {
-            const auto pos1 = std::stoi((*it).str());
-            const auto pos2 = std::stoi((*std::next(it)).str());
-            dance_steps.emplace_back('x', pos1, pos2, ' ', ' ');
-        }
-        else if (cmd[0] == 'p')
+        std::smatch match;
+        if (cmd[0] == 'p')
         {
             dance_steps.emplace_back('p', 0, 0, cmd[1], cmd[3]);
+        }
+        else if (std::regex_match(cmd, match, spin_regex))
+        {
+            const auto num = std::stoi(match.str(1));
+            dance_steps.emplace_back('s', num, 0, ' ', ' ');
+        }
+        else if (std::regex_match(cmd, match, exchange_regex))
+        {
+            const auto pos1 = std::stoi(match.str(1));
+            const auto pos2 = std::stoi(match.str(2));
+            dance_steps.emplace_back('x', pos1, pos2, ' ', ' ');
         }
         else { assert(false); }
     }
