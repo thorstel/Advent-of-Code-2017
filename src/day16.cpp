@@ -37,7 +37,7 @@ template<>
 void solve<Day16>(std::istream& ins, std::ostream& outs)
 {
     const std::regex spin_regex{R"(s(\d+))", std::regex::optimize};
-    const std::regex exchange_regex{R"(x(\d+).(\d+))", std::regex::optimize};
+    const std::regex exchange_regex{R"(x(\d+)/(\d+))", std::regex::optimize};
 
     std::string input;
     ins >> input; // cleanup potential whitespaces
