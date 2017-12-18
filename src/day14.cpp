@@ -9,25 +9,25 @@ void solve<Day14>(std::istream& ins, std::ostream& outs)
 {
     NOT_USED(ins);
 
-    std::string             input{"ffayrhll"};
+    int                     num_used {0};
+    std::string             input    {"ffayrhll"};
     aoc::disjoint_sets<int> regions;
-    int                     num_used{0};
 
-    for (int y{0}; y < 128; ++y)
+    for (auto y {0}; y < 128; ++y)
     {
         std::ostringstream oss;
         oss << input << "-" << y;
 
-        int x{0};
+        auto x {0};
         for (auto byte : aoc::knot_hash(oss.str()))
         {
-            for (int b{7}; b >= 0; --b, ++x)
+            for (auto b {7}; b >= 0; --b, ++x)
             {
                 if (byte & (1 << b))
                 {
-                    const int region = regions.find(pos_key(x, y));
-                    const int left   = pos_key((x - 1), y);
-                    const int up     = pos_key(x, (y - 1));
+                    const auto region {regions.find(pos_key(x, y))};
+                    const auto left   {pos_key((x - 1), y)};
+                    const auto up     {pos_key(x, (y - 1))};
                     if ((x > 0) && regions.contains(left))
                     {
                         regions.make_union(region, left);

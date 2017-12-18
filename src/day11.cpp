@@ -12,7 +12,7 @@
 // to determine the distance.
 static constexpr int distance(const std::tuple<int, int, int>& pos)
 {
-    const auto [x, y, z] = pos;
+    const auto [x, y, z] {pos};
     return std::max({std::abs(x), std::abs(y), std::abs(z)});
 }
 
@@ -24,19 +24,19 @@ void solve<Day11>(std::istream& ins, std::ostream& outs)
     std::string input;
     ins >> input;
 
-    const std::unordered_map<std::string, std::tuple<int, int, int>> deltas{{
-        {"n",  { -1,  1,  0}}, {"ne", {  0,  1, -1}}, {"nw", { -1,  0,  1}},
-        {"s",  {  1, -1,  0}}, {"sw", {  0, -1,  1}}, {"se", {  1,  0, -1}}
+    const std::unordered_map<std::string, std::tuple<int, int, int>> deltas {{
+        {"n",  {-1,  1, 0}}, {"ne", {0,  1, -1}}, {"nw", {-1, 0,  1}},
+        {"s",  { 1, -1, 0}}, {"sw", {0, -1,  1}}, {"se", { 1, 0, -1}}
     }};
 
-    std::istringstream              iss{input};
-    const std::tuple<int, int, int> start{0, 0, 0};
-    std::tuple<int, int, int>       pos{start};
-    int                             max_dist{0};
+    const std::tuple<int, int, int> start    {0, 0, 0};
+    std::tuple<int, int, int>       pos      {start};
+    std::istringstream              iss      {input};
+    int                             max_dist {0};
 
     for (std::string dir; std::getline(iss, dir, ',');)
     {
-        auto [x, y, z]    = deltas.at(dir);
+        auto [x, y, z] {deltas.at(dir)};
         std::get<0>(pos) += x;
         std::get<1>(pos) += y;
         std::get<2>(pos) += z;

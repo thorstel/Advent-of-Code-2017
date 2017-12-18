@@ -22,9 +22,9 @@ int main(int argc, const char* argv[])
 {
     if (argc > 1)
     {
-        for (auto i = 1; i < argc; ++i)
+        for (auto i {1}; i < argc; ++i)
         {
-            int day = (std::atoi(argv[i]) - 1);
+            auto day {std::atoi(argv[i]) - 1};
             if ((day >= Day01) && (day < DAY_COUNT))
             {
                 run_day(static_cast<Day>(day), std::cout);
@@ -38,7 +38,7 @@ int main(int argc, const char* argv[])
     else
     {
         // execute everything
-        for (int i = Day01; i < DAY_COUNT; ++i)
+        for (int i {Day01}; i < DAY_COUNT; ++i)
         {
             run_day(static_cast<Day>(i), std::cout);
         }
@@ -56,12 +56,12 @@ static void run_day(Day d, std::ostream& outs)
     outs << "-------------------------------- " << day_to_string(d)
          << " ---------------------------------" << std::endl << std::endl;
 
-    std::ifstream ins{ "inputs/" + day_to_string(d) + ".txt" };
+    std::ifstream ins {"inputs/" + day_to_string(d) + ".txt"};
 
-    auto start = timer::now();
+    auto start {timer::now()};
     select_day(d, ins, outs);
-    auto end   = timer::now();
-    std::chrono::duration<double, std::milli> dur{end - start};
+    auto end   {timer::now()};
+    std::chrono::duration<double, std::milli> dur {end - start};
 
     outs << std::endl << "Execution time: ";
     outs.precision(3);

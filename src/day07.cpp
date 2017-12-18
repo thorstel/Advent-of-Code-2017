@@ -10,10 +10,8 @@ static std::unordered_map<
 static int get_total_weight(const std::string& name, std::ostream& outs)
 {
     std::vector<int> weights;
-    std::for_each(
-            towers[name].second.begin(),
-            towers[name].second.end(),
-            [&](const auto& n) {
+    std::for_each(towers[name].second.begin(), towers[name].second.end(),
+            [&] (const auto& n) {
                 weights.push_back(get_total_weight(n, outs));
             });
 
@@ -22,7 +20,7 @@ static int get_total_weight(const std::string& name, std::ostream& outs)
     {
         outs << "Error: " << name << " (" << towers[name].first
              << ") is imbalanced! Weights: ";
-        for (auto i = 0u; i < towers[name].second.size(); ++i)
+        for (auto i {0u}; i < towers[name].second.size(); ++i)
         {
             outs << towers[name].second[i] << " (" << weights[i] << ") ";
         }
@@ -31,10 +29,8 @@ static int get_total_weight(const std::string& name, std::ostream& outs)
     }
 
     towers[name].second.clear();
-    std::for_each(
-            weights.begin(),
-            weights.end(),
-            [&](int& w) { towers[name].first += w; });
+    std::for_each(weights.begin(), weights.end(),
+            [&] (int& w) { towers[name].first += w; });
     return towers[name].first;
 }
 
@@ -44,11 +40,10 @@ void solve<Day07>(std::istream& ins, std::ostream& outs)
     // Input handling
     for (std::string line; std::getline(ins, line);)
     {
-        std::istringstream iss{line};
-        std::string name;
-        std::string weight;
+        std::istringstream iss {line};
+        std::string        name, weight;
 
-        auto cleanup = [](unsigned char c) { return !std::isalnum(c); };
+        auto cleanup {[] (unsigned char c) { return !std::isalnum(c); }};
         iss >> name;
         iss >> weight;
         weight.erase(
@@ -69,9 +64,7 @@ void solve<Day07>(std::istream& ins, std::ostream& outs)
     }
 
     // Calculating weights
-    std::for_each(
-            towers.begin(),
-            towers.end(),
-            [&](auto& t) { (void)get_total_weight(t.first, outs); });
+    std::for_each(towers.begin(), towers.end(),
+            [&] (auto& t) { (void)get_total_weight(t.first, outs); });
 }
 

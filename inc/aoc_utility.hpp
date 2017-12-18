@@ -64,7 +64,7 @@ constexpr uint64_t generator_next(uint64_t prev)
 template<uint64_t Factor, uint64_t Criteria>
 constexpr uint64_t generator_next(uint64_t prev)
 {
-    uint64_t val = generator_next<Factor>(prev);
+    auto val {generator_next<Factor>(prev)};
     while ((val % Criteria) != 0u) { val = generator_next<Factor>(val); }
     return val;
 }
@@ -84,16 +84,16 @@ class disjoint_sets
     /** Internal data structure of a set. */
     struct set_elem
     {
-        T      id;       /**< Parent element / representative of the set. */
-        int    rank{0};  /**< Rank of the set (root only). */
-        size_t size{0u}; /**< Number of elements in the set (root only). */
+        T      id;        /**< Parent element / representative of the set. */
+        int    rank {0};  /**< Rank of the set (root only). */
+        size_t size {0u}; /**< Number of elements in the set (root only). */
     };
 
     /** Table containing every element across all (disjoint) sets. */
     std::unordered_map<T, set_elem> table;
 
     /** Total number of disjoint sets tracked by an instance of the class. */
-    size_t num_sets{0u};
+    size_t num_sets {0u};
 
 public:
     /**
@@ -114,8 +114,8 @@ public:
      */
     void make_union(const T& elem1, const T& elem2)
     {
-        auto& set1 = find_rec(elem1);
-        auto& set2 = find_rec(elem2);
+        auto& set1 {find_rec(elem1)};
+        auto& set2 {find_rec(elem2)};
 
         if (set1.id == set2.id) { return; }
 
@@ -168,7 +168,7 @@ private:
      */
     set_elem& find_rec(const T& elem)
     {
-        auto& set = table[elem];
+        auto& set {table[elem]};
         if (set.size == 0u)
         {
             ++num_sets;
@@ -179,8 +179,8 @@ private:
         else if (set.id == elem) { return set; }
         else
         {
-            auto& parent = find_rec(set.id);
-            set.id       = parent.id;
+            auto& parent {find_rec(set.id)};
+            set.id = parent.id;
             return parent;
         }
     }

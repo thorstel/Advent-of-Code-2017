@@ -19,7 +19,7 @@ void solve<Day13>(std::istream& ins, std::ostream& outs)
     std::vector<std::pair<int, int>> scanners;
     for (std::string line; std::getline(ins, line);)
     {
-        std::istringstream iss{line};
+        std::istringstream iss {line};
         std::string        depth, range;
 
         iss >> depth;
@@ -28,7 +28,7 @@ void solve<Day13>(std::istream& ins, std::ostream& outs)
     }
 
     // Part 1
-    int severity{0};
+    int severity {0};
     for (auto [depth, range] : scanners)
     {
         if (depth % ((range * 2) - 2) == 0) { severity += (depth * range); }
@@ -37,7 +37,7 @@ void solve<Day13>(std::istream& ins, std::ostream& outs)
     outs << "Severity of getting caught = " << severity << std::endl;
 
     // Part 2
-    int wait{0};
+    int wait {0};
     while (is_caught(scanners, wait)) { ++wait; }
     outs << "Delay for not being caught = " << wait << std::endl;
 }
