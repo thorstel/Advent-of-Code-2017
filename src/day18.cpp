@@ -1,6 +1,9 @@
 #include <cassert>
 #include <cctype>
+#include <condition_variable>
 #include <queue>
+#include <mutex>
+#include <thread>
 #include <tuple>
 
 #include "default_includes.hpp"
@@ -21,15 +24,25 @@ static instr from_string(const std::string& command)
     return lookup.at(command);
 }
 
-template<bool Is_Part2 = false>
-static std::pair<int64_t, bool> exec_prog(
-        const std::vector<instr_def>&      commands,
-        int64_t&                           pos,
-        std::unordered_map<char, int64_t>& registers,
-        std::queue<int64_t>&               send_queue,
-        std::queue<int64_t>&               recv_queue)
+static std::mutex                        prog_mutex;
+static std::condition_variable           prog_cv;
+static std::unordered_map<int64_t, bool> prog_status;
+
+template<bool Is_Part2 = false, int64_t Program = 0>
+static int64_t exec_prog(
+        const std::vector<instr_def>& commands,
+        std::queue<int64_t>&          send_queue,
+        std::queue<int64_t>&          recv_queue)
 {
-    int64_t snd_count {0};
+    const auto                        other {(Program + 1) % 2};
+    int64_t                           snd_count {0}, pos {0};
+    std::unordered_map<char, int64_t> registers;
+    registers['p'] = Program;
+
+    { // Program is not waiting.
+        std::lock_guard<std::mutex> guard {prog_mutex};
+        prog_status[Program] = false;
+    }
 
     while ((pos >= 0) && (pos < static_cast<int64_t>(commands.size())))
     {
@@ -39,10 +52,12 @@ static std::pair<int64_t, bool> exec_prog(
         case instr::snd:
             if (Is_Part2)
             {
+                std::lock_guard<std::mutex> guard {prog_mutex};
                 ++snd_count;
                 send_queue.push(registers[reg1]);
             }
             else { snd_count = registers[reg1]; }
+            prog_cv.notify_one();
             break;
 
         case instr::set:
@@ -64,18 +79,38 @@ static std::pair<int64_t, bool> exec_prog(
         case instr::rcv:
             if (Is_Part2)
             {
-                if (!recv_queue.empty())
-                {
-                    registers[reg1] = recv_queue.front();
-                    recv_queue.pop();
+                bool need_wait {false};
+                { // Do we need to wait or can we receive right away?
+                    std::lock_guard<std::mutex> guard {prog_mutex};
+                    if (recv_queue.empty())
+                    {
+                        prog_status[Program] = true;
+                        need_wait            = true;
+                    }
                 }
-                else
+
+                if (need_wait)
                 {
-                    --pos;
-                    return {snd_count, false};
+                    std::unique_lock<std::mutex> lock {prog_mutex};
+                    prog_cv.wait(lock, [&] { return !recv_queue.empty()
+                            || (prog_status[other] && send_queue.empty()); });
+                }
+                { // Now we can receive or we have a deadlock.
+                    std::lock_guard<std::mutex> guard {prog_mutex};
+                    if (!recv_queue.empty())
+                    {
+                        registers[reg1] = recv_queue.front();
+                        recv_queue.pop();
+                        prog_status[Program] = false;
+                    }
+                    else
+                    {
+                        prog_cv.notify_one();
+                        return snd_count;
+                    }
                 }
             }
-            else if (registers[reg1] != 0) { return {snd_count, true}; }
+            else if (registers[reg1] != 0) { return snd_count; }
             break;
 
         case instr::jgz:
@@ -89,8 +124,12 @@ static std::pair<int64_t, bool> exec_prog(
             assert(false);
         }
     }
-
-    return {snd_count, true};
+    {
+        std::lock_guard<std::mutex> guard {prog_mutex};
+        prog_status[Program] = true;
+    }
+    prog_cv.notify_one();
+    return snd_count;
 }
 
 template<>
@@ -137,34 +176,24 @@ void solve<Day18>(std::istream& ins, std::ostream& outs)
     }
 
     // Part 1
-    int64_t                           pos {0};
-    std::queue<int64_t>               out0, out1;
-    std::unordered_map<char, int64_t> registers;
+    std::queue<int64_t> out0, out1;
 
-    auto part1_result {exec_prog(commands, pos, registers, out0, out1).first};
+    auto part1_result {exec_prog(commands, out0, out1)};
     outs << "Recovered         = " << part1_result << std::endl;
 
     // Part 1 should not have used the queues.
     assert(out0.empty() && out1.empty());
 
     // Part 2
-    int64_t                           pos0 {0}, pos1 {0}, send_count {0};
-    std::unordered_map<char, int64_t> regs0, regs1 {{'p', 1}};
-    while (true)
-    {
-        auto [count0, done0] {exec_prog<true>(commands, pos0, regs0, out0, out1)};
-        auto [count1, done1] {exec_prog<true>(commands, pos1, regs1, out1, out0)};
+    int64_t send_count {0};
 
-        NOT_USED(count0);
-        send_count += count1;
+    std::thread t0 {[&] { exec_prog<true, 0>(commands, out0, out1); }};
+    std::thread t1 {[&] {
+        send_count = exec_prog<true, 1>(commands, out1, out0);
+    }};
 
-        // Stop if both programs terminated.
-        if (done0 && done1) { break; }
-
-        // Stop if a deadlock occurred.
-        if (!done0 && out0.empty() && !done1 && out1.empty()) { break; }
-    }
-
+    t0.join();
+    t1.join();
     outs << "Sent by Program 1 = " << send_count << std::endl;
 }
 
