@@ -44,6 +44,10 @@ int main(int argc, const char* argv[])
         }
     }
 
+#ifdef _MSC_VER
+    std::cout << "Press any key to continue . . ." << std::endl;
+    std::cin.get();
+#endif
     return EXIT_SUCCESS;
 }
 

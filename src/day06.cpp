@@ -23,7 +23,7 @@ void solve<Day06>(std::istream& ins, std::ostream& outs)
         *iter = 0;
         for (auto& elem : banks)
         {
-            elem += (to_distribute / banks.size());
+            elem += (to_distribute / static_cast<int>(banks.size()));
         }
 
         for (auto _ {0u}; _ < (to_distribute % banks.size()); ++_)

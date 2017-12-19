@@ -32,8 +32,7 @@ static int neighbor_sum(
 
     return std::accumulate(deltas.begin(), deltas.end(), 0,
             [&] (int sum, const std::pair<int32_t, int32_t>& p) {
-                auto [x_d, y_d] {p};
-                return sum + nodes[coords_key((x + x_d), (y + y_d))];
+                return sum + nodes[coords_key((x + p.first), (y + p.second))];
             });
 }
 

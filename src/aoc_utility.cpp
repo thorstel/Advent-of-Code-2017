@@ -34,19 +34,19 @@ void aoc::knot_hash_round(
         unsigned int&                    pos,
         unsigned int&                    skip)
 {
+    const auto array_size {static_cast<unsigned int>(array.size())};
     for (auto len : inputs)
     {
         unsigned int start_pos {pos},
-                     end_pos   {((pos + len) - 1u) %
-                                static_cast<unsigned int>(array.size())};
+                     end_pos   {((pos + len) - 1u) % array_size};
         for (auto _ {0u}; _ < (len / 2u); ++_)
         {
             std::swap(array[start_pos], array[end_pos]);
-            start_pos = (start_pos + 1u) % array.size();
-            end_pos   = (end_pos > 0u) ? (end_pos - 1u) : (array.size() - 1u);
+            start_pos = (start_pos + 1u) % array_size;
+            end_pos   = (end_pos > 0u) ? (end_pos - 1u) : (array_size - 1u);
         }
 
-        pos = (pos + (len + skip++)) % array.size();
+        pos = (pos + (len + skip++)) % array_size;
     }
 }
 
