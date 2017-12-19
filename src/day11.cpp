@@ -19,6 +19,12 @@ static constexpr int distance(const std::tuple<int, int, int>& pos)
 template<>
 void solve<Day11>(std::istream& ins, std::ostream& outs)
 {
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
+
     // this step is to strip some potential whitespaces, not really
     // needed for a 'clean' input.
     std::string input;
@@ -36,7 +42,7 @@ void solve<Day11>(std::istream& ins, std::ostream& outs)
 
     for (std::string dir; std::getline(iss, dir, ',');)
     {
-        auto [x, y, z] {deltas.at(dir)};
+        const auto [x, y, z] {deltas.at(dir)};
         std::get<0>(pos) += x;
         std::get<1>(pos) += y;
         std::get<2>(pos) += z;

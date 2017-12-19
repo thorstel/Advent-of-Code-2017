@@ -4,6 +4,12 @@
 template<>
 void solve<Day04>(std::istream& ins, std::ostream& outs)
 {
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
+
     unsigned int valid_phrases_p1 {0u},
                  valid_phrases_p2 {0u};
     for (std::string line; std::getline(ins, line);)

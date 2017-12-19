@@ -6,6 +6,12 @@
 template<>
 void solve<Day08>(std::istream& ins, std::ostream& outs)
 {
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
+
     std::unordered_map<std::string, int> regs;
     std::string                          reg1, reg2, op, comp;
     int                                  val1, val2, total_max {INT_MIN};

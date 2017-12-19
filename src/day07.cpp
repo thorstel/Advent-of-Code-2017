@@ -37,6 +37,12 @@ static int get_total_weight(const std::string& name, std::ostream& outs)
 template<>
 void solve<Day07>(std::istream& ins, std::ostream& outs)
 {
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
+
     // Input handling
     for (std::string line; std::getline(ins, line);)
     {

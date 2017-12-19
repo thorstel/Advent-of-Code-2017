@@ -96,6 +96,12 @@ static std::pair<int64_t, bool> exec_prog(
 template<>
 void solve<Day18>(std::istream& ins, std::ostream& outs)
 {
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
+
     std::vector<instr_def> commands;
 
     // Input parsing

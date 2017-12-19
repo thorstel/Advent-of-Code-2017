@@ -18,6 +18,12 @@ static unsigned int calc_sum(const std::string& input, size_t offset)
 template<>
 void solve<Day01>(std::istream& ins, std::ostream& outs)
 {
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
+
     std::string input;
     ins >> input;
 

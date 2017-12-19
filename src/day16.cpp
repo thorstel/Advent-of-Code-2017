@@ -33,11 +33,18 @@ static void perform_dance(
     }
 }
 
+static const std::regex spin_regex     {R"(s(\d+))", std::regex::optimize};
+static const std::regex exchange_regex {R"(x(\d+)/(\d+))",
+                                        std::regex::optimize};
+
 template<>
 void solve<Day16>(std::istream& ins, std::ostream& outs)
 {
-    const std::regex spin_regex     {R"(s(\d+))",       std::regex::optimize},
-                     exchange_regex {R"(x(\d+)/(\d+))", std::regex::optimize};
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
 
     std::string input;
     ins >> input; // cleanup potential whitespaces

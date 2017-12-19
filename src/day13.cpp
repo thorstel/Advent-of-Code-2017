@@ -16,6 +16,12 @@ static bool is_caught(
 template<>
 void solve<Day13>(std::istream& ins, std::ostream& outs)
 {
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
+
     std::vector<std::pair<int, int>> scanners;
     for (std::string line; std::getline(ins, line);)
     {

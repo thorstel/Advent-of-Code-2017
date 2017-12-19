@@ -4,6 +4,12 @@
 template<>
 void solve<Day02>(std::istream& ins, std::ostream& outs)
 {
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
+
     auto minmax_checksum {0},
          div_checksum    {0};
 

@@ -5,6 +5,12 @@
 template<>
 void solve<Day10>(std::istream& ins, std::ostream& outs)
 {
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
+
     std::array<unsigned int, 256> list;
     std::iota(list.begin(), list.end(), 0u);
 

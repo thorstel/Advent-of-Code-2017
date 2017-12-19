@@ -6,6 +6,12 @@
 template<>
 void solve<Day06>(std::istream& ins, std::ostream& outs)
 {
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
+
     std::vector<int> banks {std::istream_iterator<int>{ins}, {}};
     std::map<std::vector<int>, size_t> known;
 

@@ -4,6 +4,12 @@
 template<>
 void solve<Day09>(std::istream& ins, std::ostream& outs)
 {
+    if (!ins.good())
+    {
+        outs << "Failed to open input file!" << std::endl;
+        return;
+    }
+
     char c;
     auto group_depth   {0},
          total_score   {0},
