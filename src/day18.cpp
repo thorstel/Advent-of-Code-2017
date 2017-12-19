@@ -1,6 +1,6 @@
 #include <cassert>
 #include <cctype>
-#include <deque>
+#include <queue>
 #include <tuple>
 
 #include "default_includes.hpp"
@@ -26,8 +26,8 @@ static std::pair<int64_t, bool> exec_prog(
         const std::vector<instr_def>&      commands,
         int64_t&                           pos,
         std::unordered_map<char, int64_t>& registers,
-        std::deque<int64_t>&               send_queue,
-        std::deque<int64_t>&               recv_queue)
+        std::queue<int64_t>&               send_queue,
+        std::queue<int64_t>&               recv_queue)
 {
     int64_t snd_count {0};
 
@@ -40,7 +40,7 @@ static std::pair<int64_t, bool> exec_prog(
             if (Is_Part2)
             {
                 ++snd_count;
-                send_queue.push_back(registers[reg1]);
+                send_queue.push(registers[reg1]);
             }
             else { snd_count = registers[reg1]; }
             break;
@@ -67,7 +67,7 @@ static std::pair<int64_t, bool> exec_prog(
                 if (!recv_queue.empty())
                 {
                     registers[reg1] = recv_queue.front();
-                    recv_queue.pop_front();
+                    recv_queue.pop();
                 }
                 else
                 {
@@ -138,7 +138,7 @@ void solve<Day18>(std::istream& ins, std::ostream& outs)
 
     // Part 1
     int64_t                           pos {0};
-    std::deque<int64_t>               out0, out1;
+    std::queue<int64_t>               out0, out1;
     std::unordered_map<char, int64_t> registers;
 
     auto part1_result {exec_prog(commands, pos, registers, out0, out1).first};
