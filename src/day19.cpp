@@ -10,10 +10,10 @@ static constexpr void move_dir(direction dir, int& x, int& y)
 {
     switch (dir)
     {
-        case direction::down:  { ++y; break; }
-        case direction::left:  { --x; break; }
-        case direction::up:    { --y; break; }
-        case direction::right: { ++x; break; }
+    case direction::down:  { ++y; break; }
+    case direction::left:  { --x; break; }
+    case direction::up:    { --y; break; }
+    case direction::right: { ++x; break; }
     }
 }
 
