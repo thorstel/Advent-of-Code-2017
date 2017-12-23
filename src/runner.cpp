@@ -1,7 +1,10 @@
+#include <algorithm>
 #include <chrono>
 #include <cstdlib>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
+#include <sstream>
 
 #include "solution.hpp"
 
@@ -12,7 +15,14 @@ using timer = std::chrono::high_resolution_clock;
  **********************************************************************/
 
 static void run_day(Day d, std::ostream& outs);
+
 static void select_day(Day d, std::istream& ins, std::ostream& outs);
+
+static std::chrono::duration<double, std::milli> time_day(Day d, std::ostream& outs);
+
+static void print_progress(double progress);
+
+static void execute_benchmark(void);
 
 /**********************************************************************
  *                          Global Functions                          *
@@ -24,14 +34,18 @@ int main(int argc, const char* argv[])
     {
         for (auto i {1}; i < argc; ++i)
         {
-            auto day {std::atoi(argv[i]) - 1};
-            if ((day >= Day01) && (day < DAY_COUNT))
-            {
-                run_day(static_cast<Day>(day), std::cout);
-            }
+            if (std::string{argv[i]} == "b") { execute_benchmark(); }
             else
             {
-                std::cout << "Invalid argument: " << argv[i] << std::endl;
+                auto day {std::atoi(argv[i]) - 1};
+                if ((day >= Day01) && (day < DAY_COUNT))
+                {
+                    run_day(static_cast<Day>(day), std::cout);
+                }
+                else
+                {
+                    std::cout << "Invalid argument: " << argv[i] << std::endl;
+                }
             }
         }
     }
@@ -55,22 +69,93 @@ int main(int argc, const char* argv[])
  *                          Local Functions                           *
  **********************************************************************/
 
+static std::chrono::duration<double, std::milli> time_day(Day d, std::ostream& outs)
+{
+    std::ifstream ins {"inputs/" + day_to_string(d) + ".txt"};
+
+    auto start {timer::now()};
+    select_day(d, ins, outs);
+    auto end {timer::now()};
+
+    return std::chrono::duration<double, std::milli>{end - start};
+}
+
 static void run_day(Day d, std::ostream& outs)
 {
     outs << "-------------------------------- " << day_to_string(d)
          << " ---------------------------------" << std::endl << std::endl;
 
-    std::ifstream ins {"inputs/" + day_to_string(d) + ".txt"};
-
-    auto start {timer::now()};
-    select_day(d, ins, outs);
-    auto end   {timer::now()};
-    std::chrono::duration<double, std::milli> dur {end - start};
-
+    auto dur {time_day(d, outs)};
     outs << std::endl << "Execution time: ";
     outs.precision(5);
     outs.setf(std::ios::fixed, std::ios::floatfield);
     outs << dur.count() << " ms" << std::endl << std::endl;
+}
+
+static void execute_benchmark(void)
+{
+    std::cout << "------------------------------ Benchmarks ------------------------------"
+              << std::endl << std::endl;
+
+    std::ostringstream oss;
+    oss.fill(' ');
+    oss.precision(5);
+    oss.setf(std::ios::fixed, std::ios::floatfield);
+
+    oss << "    +----------+---------------+---------------+---------------+        " << std::endl;
+    oss << "    | Solution | Min Time (ms) | Avg Time (ms) | Max Time (ms) |        " << std::endl;
+    oss << "    +----------+---------------+---------------+---------------+        " << std::endl;
+
+    const auto   iterations {100};
+    std::ostream outs       {0}; // disable output
+    auto         cnt        {0};
+
+    auto start {timer::now()};
+    for (int d {Day01}; d < DAY_COUNT; ++d)
+    {
+        std::chrono::duration<double, std::milli> total_dur {0};
+        std::chrono::duration<double, std::milli> max_dur   {0};
+        std::chrono::duration<double, std::milli> min_dur   {INT_MAX};
+
+        for (auto _ {0}; _ < iterations; ++_)
+        {
+            print_progress((cnt++) / (iterations * static_cast<double>(DAY_COUNT)));
+            auto dur {time_day(static_cast<Day>(d), outs)};
+            min_dur = std::min(dur, min_dur);
+            max_dur = std::max(dur, max_dur);
+            total_dur += dur;
+        }
+
+        oss << "    |  " << day_to_string(static_cast<Day>(d)) << "   | ";
+        oss << std::setw(13) << min_dur.count() << " | ";
+        oss << std::setw(13) << (total_dur / iterations).count() << " | ";
+        oss << std::setw(13) << max_dur.count() << " |" << std::endl;
+    }
+    auto end {timer::now()};
+
+    oss << "    +----------+---------------+---------------+---------------+";
+    oss << std::endl << std::endl;
+    oss.precision(2);
+    oss << "Iterations: " << iterations << std::endl;
+    oss << "Total Time: " << std::chrono::duration<double>{end - start}.count() << "s" << std::endl;
+
+    std::cout << oss.str() << std::endl;
+}
+
+static void print_progress(double progress)
+{
+    const auto bar_width {64};
+
+    std::cout << "[";
+    auto pos {static_cast<int>(bar_width * progress)};
+    for (auto i {0}; i < bar_width; ++i)
+    {
+        if (i <= pos) { std::cout << "#"; }
+        else          { std::cout << "."; }
+    }
+
+    std::cout << "] " << static_cast<int>(progress * 100.0) << " %\r";
+    std::cout.flush();
 }
 
 static void select_day(Day d, std::istream& ins, std::ostream& outs)
