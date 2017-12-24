@@ -87,7 +87,7 @@ static void run_day(Day d, std::ostream& outs)
 
     auto dur {time_day(d, outs)};
     outs << std::endl << "Execution time: ";
-    outs.precision(5);
+    outs.precision(3);
     outs.setf(std::ios::fixed, std::ios::floatfield);
     outs << dur.count() << " ms" << std::endl << std::endl;
 }
