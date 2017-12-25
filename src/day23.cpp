@@ -13,11 +13,12 @@ using instr_def = std::tuple<instr, char, char, int64_t>;
 static size_t count_mul(const std::vector<instr_def>& commands)
 {
     std::unordered_map<char, int64_t> registers;
-    int    pos {0};
-    size_t cnt {0};
-    while ((pos >= 0) && (pos < static_cast<int>(commands.size())))
+    int64_t pos {0};
+    size_t  cnt {0};
+    while ((pos >= 0) && (pos < static_cast<int64_t>(commands.size())))
     {
-        const auto& [cmd, reg1, reg2, value] {commands.at(pos)};
+        const auto& [cmd, reg1, reg2, value] {
+            commands.at(static_cast<size_t>(pos))};
 
         bool jumped {false};
         switch (cmd)
