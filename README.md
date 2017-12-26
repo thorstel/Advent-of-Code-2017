@@ -1,4 +1,5 @@
 # Advent of Code 2017
+
 My solutions for AoC 2017. I did not aim to compete on the leaderboards
 (i.e. my solutions tend to be a lot more verbose than what you would
 write when trying to finish as quickly as possible), I simply used this
@@ -13,11 +14,20 @@ as an opportunity to write some (modern) C++ again.
 
 ## Overview
 
-- Running the executable without any arguments will simply execute the
-  solution for each and every day.
+The program expects the input files to be available as
+`inputs/Day{01-25}.txt` relative to the location of the executable. The
+CMake install target will place the executable in the root folder of the
+repository (running it from there will work out of the box). If you're
+running the program from somewhere else (Visual Studio solution for
+example), you'll have to copy the "inputs" folder to the appropriate
+location.
+
+**Command Line Options:**
+- Running the executable without any arguments will simply execute all
+  solutions.
 - `1` to `25` can be used as command line arguments to only execute the
   solution(s) of the respective day(s).
-- The argument `b` can be used to invoke a small 'benchmark'. This will
+- The argument `b` can be used to run a small 'benchmark'. This will
   execute each solution 100 times and determine minimum, maximum, and
   average run time.
 
