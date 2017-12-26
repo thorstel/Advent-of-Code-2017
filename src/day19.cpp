@@ -6,10 +6,16 @@
 
 enum class direction { down, left, up, right };
 
-static const std::unordered_map<direction, std::pair<int, int>> deltas {
-    {direction::down, {0,  1}}, {direction::left,  {-1, 0}},
-    {direction::up,   {0, -1}}, {direction::right, { 1, 0}}
-};
+static constexpr void move_dir(direction dir, int& x, int& y)
+{
+    switch (dir)
+    {
+    case direction::down:  { ++y; break; }
+    case direction::left:  { --x; break; }
+    case direction::up:    { --y; break; }
+    case direction::right: { ++x; break; }
+    }
+}
 
 static inline bool can_move(
         const std::vector<std::string>& grid,
@@ -17,12 +23,12 @@ static inline bool can_move(
         int                             y,
         direction                       dir)
 {
-    const auto [xd, yd] {deltas.at(dir)};
-    return ((x + xd) >= 0)
-        && ((x + xd) < static_cast<int>(grid.front().size()))
-        && ((y + yd) >= 0)
-        && ((y + yd) < static_cast<int>(grid.size()))
-        && !std::isblank(grid[y + yd][x + xd]);
+    move_dir(dir, x, y);
+    return (x >= 0)
+        && (x < static_cast<int>(grid.front().size()))
+        && (y >= 0)
+        && (y < static_cast<int>(grid.size()))
+        && !std::isblank(grid[y][x]);
 }
 
 static direction change_dir(
@@ -71,10 +77,8 @@ void solve<Day19>(std::istream& ins, std::ostream& outs)
     auto               step_ctr {1};
     while (can_move(grid, x, y, dir))
     {
-        const auto [xd, yd] {deltas.at(dir)};
-        x += xd;
-        y += yd;
         ++step_ctr;
+        move_dir(dir, x, y);
 
         if (std::isalpha(grid[y][x])) { result << grid[y][x]; }
         else if (grid[y][x] == '+')   { dir = change_dir(grid, x, y, dir); }

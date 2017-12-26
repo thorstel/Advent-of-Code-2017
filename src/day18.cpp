@@ -46,7 +46,7 @@ static int64_t exec_prog(
 
     while ((pos >= 0) && (pos < static_cast<int64_t>(commands.size())))
     {
-        auto [cmd, reg1, reg2, val] {commands.at(pos++)};
+        auto [cmd, reg1, reg2, val] {commands.at(static_cast<size_t>(pos++))};
         switch (cmd)
         {
         case instr::snd:
