@@ -13,21 +13,21 @@ void solve<Day14>(std::istream& ins, std::ostream& outs)
     std::string             input    {"ffayrhll"};
     aoc::disjoint_sets<int> regions;
 
-    for (auto y {0}; y < 128; ++y)
+    for (auto y = 0; y < 128; ++y)
     {
         std::ostringstream oss;
         oss << input << "-" << y;
 
-        auto x {0};
+        auto x = 0;
         for (auto byte : aoc::knot_hash(oss.str()))
         {
-            for (auto b {7}; b >= 0; --b, ++x)
+            for (auto b = 7; b >= 0; --b, ++x)
             {
                 if (byte & (1 << b))
                 {
-                    const auto region {regions.find(pos_key(x, y))};
-                    const auto left   {pos_key((x - 1), y)};
-                    const auto up     {pos_key(x, (y - 1))};
+                    const auto region = regions.find(pos_key(x, y));
+                    const auto left   = pos_key((x - 1), y);
+                    const auto up     = pos_key(x, (y - 1));
                     if ((x > 0) && regions.contains(left))
                     {
                         regions.make_union(region, left);

@@ -11,9 +11,9 @@ void solve<Day09>(std::istream& ins, std::ostream& outs)
     }
 
     char c;
-    auto group_depth   {0},
-         total_score   {0},
-         garbage_count {0};
+    auto group_depth   = 0,
+         total_score   = 0,
+         garbage_count = 0;
     bool is_garbage    {false},
          cancel_next   {false};
 

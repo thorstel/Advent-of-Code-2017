@@ -11,10 +11,10 @@ void solve<Day25>(std::istream& ins, std::ostream& outs)
 {
     NOT_USED(ins);
 
-    const auto          steps      {12'425'180};
+    const auto          steps      = 12'425'180;
     state               curr_state {state::A};
     std::deque<uint8_t> tape       {0};
-    auto                cursor     {tape.begin()};
+    auto                cursor     = tape.begin();
 
     auto move_cursor = [&tape, &cursor] (dir d) {
         if (d == dir::left)
@@ -37,7 +37,7 @@ void solve<Day25>(std::istream& ins, std::ostream& outs)
         }
     };
 
-    for (auto _ {0}; _ < steps; ++_)
+    for (auto _ = 0; _ < steps; ++_)
     {
         // Implementation & input description side-by-side.
         switch (curr_state)

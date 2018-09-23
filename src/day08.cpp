@@ -33,10 +33,10 @@ void solve<Day08>(std::istream& ins, std::ostream& outs)
         }
     }
 
-    auto max {std::max_element(regs.begin(), regs.end(),
+    auto max = std::max_element(regs.begin(), regs.end(),
             [] (const auto& a1, const auto& a2) {
                 return a1.second < a2.second;
-            })};
+            });
     outs << "Maximum register value = " << max->second << std::endl
          << "Highest overall value  = " << total_max << std::endl;
 }

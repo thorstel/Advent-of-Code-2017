@@ -12,20 +12,20 @@ static size_t count_pixels(
         int                                                 iterations)
 {
     std::string grid {start_grid};
-    for (auto _ {0}; _ < iterations; ++_)
+    for (auto _ = 0; _ < iterations; ++_)
     {
-        const auto dim   {grid.find('/')};
-        const auto slice {((dim % 2) == 0) ? 2 : 3};
+        const auto dim   = grid.find('/');
+        const auto slice = ((dim % 2) == 0) ? 2 : 3;
 
         std::ostringstream oss;
-        for (auto i {0u}; i < (dim / slice); ++i)
+        for (auto i = 0u; i < (dim / slice); ++i)
         {
             std::vector<std::string> sub_grids;
-            for (auto j {0u}; j < (dim / slice); ++j)
+            for (auto j = 0u; j < (dim / slice); ++j)
             {
-                const auto row  {i * slice * (dim + 1)};
-                const auto row2 {row + (dim + 1)};
-                const auto col  {j * slice};
+                const auto row  = i * slice * (dim + 1);
+                const auto row2 = row + (dim + 1);
+                const auto col  = j * slice;
                 if (slice == 2)
                 {
                     sub_grids.emplace_back(rules.at(std::string{
@@ -34,7 +34,7 @@ static size_t count_pixels(
                 }
                 else
                 {
-                    const auto row3 {row2 + (dim + 1)};
+                    const auto row3 = row2 + (dim + 1);
                     sub_grids.emplace_back(rules.at(std::string{
                             grid[row  + col], grid[row  + col + 1], grid[row  + col + 2], '/',
                             grid[row2 + col], grid[row2 + col + 1], grid[row2 + col + 2], '/',
@@ -42,7 +42,7 @@ static size_t count_pixels(
                 }
             }
 
-            for (auto j {0}; j < (slice + 1); ++j)
+            for (auto j = 0; j < (slice + 1); ++j)
             {
                 for (auto& g : sub_grids)
                 {

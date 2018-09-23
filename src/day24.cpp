@@ -26,9 +26,9 @@ void solve<Day24>(std::istream& ins, std::ostream& outs)
         components.emplace_back(std::move(comp));
     }
 
-    auto max_strength     {0};
-    auto longest          {0};
-    auto longest_strength {0};
+    auto max_strength     = 0;
+    auto longest          = 0;
+    auto longest_strength = 0;
 
     std::function<void(int, int, int)> build_bridges =
         [&] (int port, int strength, int length)

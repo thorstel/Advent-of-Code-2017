@@ -16,11 +16,11 @@ std::array<unsigned int, 16> aoc::knot_hash(const std::string& input)
     for (auto i : {17u, 31u, 73u, 47u, 23u}) { inputs.push_back(i); }
 
     unsigned int pos {0u}, skip {0u};
-    for (auto _ {0}; _ < 64; ++_) { knot_hash_round(array, inputs, pos, skip); }
+    for (auto _ = 0; _ < 64; ++_) { knot_hash_round(array, inputs, pos, skip); }
 
     std::array<unsigned int, 16> hash;
-    auto hh {hash.begin()};
-    for (auto it {array.begin()}; it != array.end(); std::advance(it, 16))
+    auto hh = hash.begin();
+    for (auto it = array.begin(); it != array.end(); std::advance(it, 16))
     {
         *(hh++) = std::accumulate(it, (it + 16), 0u, std::bit_xor<void>());
     }
@@ -34,12 +34,12 @@ void aoc::knot_hash_round(
         unsigned int&                    pos,
         unsigned int&                    skip)
 {
-    const auto array_size {static_cast<unsigned int>(array.size())};
+    const auto array_size = static_cast<unsigned int>(array.size());
     for (auto len : inputs)
     {
         unsigned int start_pos {pos},
                      end_pos   {((pos + len) - 1u) % array_size};
-        for (auto _ {0u}; _ < (len / 2u); ++_)
+        for (auto _ = 0u; _ < (len / 2u); ++_)
         {
             std::swap(array[start_pos], array[end_pos]);
             start_pos = (start_pos + 1u) % array_size;

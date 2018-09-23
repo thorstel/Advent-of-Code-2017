@@ -20,7 +20,7 @@ static int get_total_weight(const std::string& name, std::ostream& outs)
     {
         outs << "Error: " << name << " (" << towers[name].first
              << ") is imbalanced! Weights: ";
-        for (auto i {0u}; i < towers[name].second.size(); ++i)
+        for (auto i = 0u; i < towers[name].second.size(); ++i)
         {
             outs << towers[name].second[i] << " (" << weights[i] << ") ";
         }
@@ -49,7 +49,7 @@ void solve<Day07>(std::istream& ins, std::ostream& outs)
         std::istringstream iss {line};
         std::string        name, weight;
 
-        auto cleanup {[] (unsigned char c) { return !std::isalnum(c); }};
+        auto cleanup = [] (unsigned char c) { return !std::isalnum(c); };
         iss >> name;
         iss >> weight;
         weight.erase(

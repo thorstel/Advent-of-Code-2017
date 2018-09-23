@@ -19,7 +19,7 @@ void solve<Day12>(std::istream& ins, std::ostream& outs)
         std::vector<int>   group;
 
         iss >> word;
-        auto set {groups.find(std::stoi(word))};
+        auto set = groups.find(std::stoi(word));
         iss >> word; // skip the <->
         while (iss >> word) { groups.make_union(set, std::stoi(word)); }
     }

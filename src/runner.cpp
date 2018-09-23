@@ -32,12 +32,12 @@ int main(int argc, const char* argv[])
 {
     if (argc > 1)
     {
-        for (auto i {1}; i < argc; ++i)
+        for (auto i = 1; i < argc; ++i)
         {
             if (std::string{argv[i]} == "b") { execute_benchmark(); }
             else
             {
-                auto day {std::atoi(argv[i]) - 1};
+                auto day = std::atoi(argv[i]) - 1;
                 if ((day >= Day01) && (day < DAY_COUNT))
                 {
                     run_day(static_cast<Day>(day), std::cout);
@@ -73,9 +73,9 @@ static std::chrono::duration<double, std::milli> time_day(Day d, std::ostream& o
 {
     std::ifstream ins {"inputs/" + day_to_string(d) + ".txt"};
 
-    auto start {timer::now()};
+    auto start = timer::now();
     select_day(d, ins, outs);
-    auto end {timer::now()};
+    auto end = timer::now();
 
     return std::chrono::duration<double, std::milli>{end - start};
 }
@@ -85,7 +85,7 @@ static void run_day(Day d, std::ostream& outs)
     outs << "-------------------------------- " << day_to_string(d)
          << " ---------------------------------" << std::endl << std::endl;
 
-    auto dur {time_day(d, outs)};
+    auto dur = time_day(d, outs);
     outs << std::endl << "Execution time: ";
     outs.precision(3);
     outs.setf(std::ios::fixed, std::ios::floatfield);
@@ -106,21 +106,21 @@ static void execute_benchmark(void)
     oss << "    | Solution | Min Time (ms) | Avg Time (ms) | Max Time (ms) |        " << std::endl;
     oss << "    +----------+---------------+---------------+---------------+        " << std::endl;
 
-    const auto   iterations {100};
+    const auto   iterations = 100;
     std::ostream outs       {0}; // disable output
-    auto         cnt        {0};
+    auto         cnt        = 0;
 
-    auto start {timer::now()};
+    auto start = timer::now();
     for (int d {Day01}; d < DAY_COUNT; ++d)
     {
         std::chrono::duration<double, std::milli> total_dur {0};
         std::chrono::duration<double, std::milli> max_dur   {0};
         std::chrono::duration<double, std::milli> min_dur   {INT_MAX};
 
-        for (auto _ {0}; _ < iterations; ++_)
+        for (auto _ = 0; _ < iterations; ++_)
         {
             print_progress((cnt++) / (iterations * static_cast<double>(DAY_COUNT)));
-            auto dur {time_day(static_cast<Day>(d), outs)};
+            auto dur = time_day(static_cast<Day>(d), outs);
             min_dur = std::min(dur, min_dur);
             max_dur = std::max(dur, max_dur);
             total_dur += dur;
@@ -131,7 +131,7 @@ static void execute_benchmark(void)
         oss << std::setw(13) << (total_dur / iterations).count() << " | ";
         oss << std::setw(13) << max_dur.count() << " |" << std::endl;
     }
-    auto end {timer::now()};
+    auto end = timer::now();
 
     oss << "    +----------+---------------+---------------+---------------+";
     oss << std::endl << std::endl;
@@ -144,11 +144,11 @@ static void execute_benchmark(void)
 
 static void print_progress(double progress)
 {
-    const auto bar_width {64};
+    const auto bar_width = 64;
 
     std::cout << "[";
-    auto pos {static_cast<int>(bar_width * progress)};
-    for (auto i {0}; i < bar_width; ++i)
+    auto pos = static_cast<int>(bar_width * progress);
+    for (auto i = 0; i < bar_width; ++i)
     {
         if (i <= pos) { std::cout << "#"; }
         else          { std::cout << "."; }

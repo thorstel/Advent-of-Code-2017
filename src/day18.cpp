@@ -33,7 +33,7 @@ static std::pair<int64_t, bool> exec_prog(
 
     while ((pos >= 0) && (pos < static_cast<int64_t>(commands.size())))
     {
-        auto [cmd, reg1, reg2, val] {commands.at(static_cast<size_t>(pos++))};
+        auto [cmd, reg1, reg2, val] = commands.at(static_cast<size_t>(pos++));
         switch (cmd)
         {
         case instr::snd:
@@ -141,7 +141,7 @@ void solve<Day18>(std::istream& ins, std::ostream& outs)
     std::queue<int64_t>               out0, out1;
     std::unordered_map<char, int64_t> registers;
 
-    auto part1_result {exec_prog(commands, pos, registers, out0, out1).first};
+    auto part1_result = exec_prog(commands, pos, registers, out0, out1).first;
     outs << "Recovered         = " << part1_result << std::endl;
 
     // Part 1 should not have used the queues.
@@ -152,8 +152,8 @@ void solve<Day18>(std::istream& ins, std::ostream& outs)
     std::unordered_map<char, int64_t> regs0, regs1 {{'p', 1}};
     while (true)
     {
-        auto [count0, done0] {exec_prog<true>(commands, pos0, regs0, out0, out1)};
-        auto [count1, done1] {exec_prog<true>(commands, pos1, regs1, out1, out0)};
+        auto [count0, done0] = exec_prog<true>(commands, pos0, regs0, out0, out1);
+        auto [count1, done1] = exec_prog<true>(commands, pos1, regs1, out1, out0);
 
         NOT_USED(count0);
         send_count += count1;

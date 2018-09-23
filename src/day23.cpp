@@ -17,8 +17,7 @@ static size_t count_mul(const std::vector<instr_def>& commands)
     size_t  cnt {0};
     while ((pos >= 0) && (pos < static_cast<int64_t>(commands.size())))
     {
-        const auto& [cmd, reg1, reg2, value] {
-            commands.at(static_cast<size_t>(pos))};
+        const auto& [cmd, reg1, reg2, value] = commands.at(static_cast<size_t>(pos));
 
         bool jumped {false};
         switch (cmd)

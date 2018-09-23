@@ -94,10 +94,10 @@ static size_t calc_infections(
     size_t    num_caused {0u};
     int32_t   x          {0},
               y          {0};
-    for (auto _ {0u}; _ < iterations; ++_)
+    for (auto _ = 0u; _ < iterations; ++_)
     {
-        const auto key {pos_key(x, y)};
-        const auto inf {grid[key]};
+        const auto key = pos_key(x, y);
+        const auto inf = grid[key];
         dir = next_dir(dir, inf);
 
         if (Part2)

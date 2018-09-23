@@ -21,11 +21,11 @@ static inline int distance(int x, int y, int z)
 
 static bool comp_tuples(const tuple& t1, const tuple& t2)
 {
-    const auto& [x1, y1, z1, vx1, vy1, vz1, ax1, ay1, az1] {t1};
-    const auto& [x2, y2, z2, vx2, vy2, vz2, ax2, ay2, az2] {t2};
+    const auto& [x1, y1, z1, vx1, vy1, vz1, ax1, ay1, az1] = t1;
+    const auto& [x2, y2, z2, vx2, vy2, vz2, ax2, ay2, az2] = t2;
 
-    const auto acc1 {distance(ax1, ay1, az1)};
-    const auto acc2 {distance(ax2, ay2, az2)};
+    const auto acc1 = distance(ax1, ay1, az1);
+    const auto acc2 = distance(ax2, ay2, az2);
 
     if (acc1 != acc2)
     {
@@ -35,13 +35,13 @@ static bool comp_tuples(const tuple& t1, const tuple& t2)
     {
         // TODO this is cheating, I was too lazy to make the proper
         // calculation here...
-        const auto factor {1'000'000};
-        const auto px1    {x1 + vx1 + (factor * ax1)};
-        const auto py1    {y1 + vy1 + (factor * ay1)};
-        const auto pz1    {z1 + vz1 + (factor * az1)};
-        const auto px2    {x2 + vx2 + (factor * ax2)};
-        const auto py2    {y2 + vy2 + (factor * ay2)};
-        const auto pz2    {z2 + vz2 + (factor * az2)};
+        const auto factor = 1'000'000;
+        const auto px1    = x1 + vx1 + (factor * ax1);
+        const auto py1    = y1 + vy1 + (factor * ay1);
+        const auto pz1    = z1 + vz1 + (factor * az1);
+        const auto px2    = x2 + vx2 + (factor * ax2);
+        const auto py2    = y2 + vy2 + (factor * ay2);
+        const auto pz2    = z2 + vz2 + (factor * az2);
         return distance(px1, py1, pz1) < distance(px2, py2, pz2);
     }
 }
@@ -80,12 +80,12 @@ void solve<Day20>(std::istream& ins, std::ostream& outs)
         else { assert(false); }
     }
 
-    auto min {std::min_element(input.begin(), input.end(), comp_tuples)};
+    auto min = std::min_element(input.begin(), input.end(), comp_tuples);
     outs << "Closest to center = " << (min - input.begin()) << std::endl;
 
     // TODO also cheating :P (this just assumes that all collisions will
     // happen in the first 1000 iterations).
-    for (auto _ {0}; _ < 1000; ++_)
+    for (auto _ = 0; _ < 1000; ++_)
     {
         std::unordered_map<int64_t, bool> collision;
         for (auto& t : input)
@@ -97,7 +97,7 @@ void solve<Day20>(std::istream& ins, std::ostream& outs)
             std::get<1>(t) += std::get<4>(t);
             std::get<2>(t) += std::get<5>(t);
 
-            const auto key {pos_key(t)};
+            const auto key = pos_key(t);
             if (!collision.emplace(key, false).second)
             {
                 collision[key] = true;

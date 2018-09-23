@@ -66,13 +66,13 @@ void solve<Day16>(std::istream& ins, std::ostream& outs)
         }
         else if (std::regex_match(cmd, match, spin_regex))
         {
-            const auto num {std::stoi(match.str(1))};
+            const auto num = std::stoi(match.str(1));
             dance_steps.emplace_back('s', num, 0, ' ', ' ');
         }
         else if (std::regex_match(cmd, match, exchange_regex))
         {
-            const auto pos1 {std::stoi(match.str(1))};
-            const auto pos2 {std::stoi(match.str(2))};
+            const auto pos1 = std::stoi(match.str(1));
+            const auto pos2 = std::stoi(match.str(2));
             dance_steps.emplace_back('x', pos1, pos2, ' ', ' ');
         }
         else { assert(false); }
@@ -84,7 +84,7 @@ void solve<Day16>(std::istream& ins, std::ostream& outs)
     outs << "(Part 1) Dancers = " << dancers << std::endl;
 
     // Perform dances until reaching a previous position of the dancers.
-    auto dance_no {2};
+    auto dance_no = 2;
     while (dance_no <= 1'000'000'000)
     {
         perform_dance(dancers, dance_steps);
@@ -93,9 +93,9 @@ void solve<Day16>(std::istream& ins, std::ostream& outs)
     }
 
     // Perform the remaining dances.
-    const auto remain {(1'000'000'000 - dance_no) %
-                       (dance_no - positions[dancers])};
-    for (auto _ {0}; _ < remain; ++_) { perform_dance(dancers, dance_steps); }
+    const auto remain = (1'000'000'000 - dance_no) %
+                       (dance_no - positions[dancers]);
+    for (auto _ = 0; _ < remain; ++_) { perform_dance(dancers, dance_steps); }
     outs << "(Part 2) Dancers = " << dancers << std::endl;
 }
 

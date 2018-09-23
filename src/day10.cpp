@@ -25,13 +25,13 @@ void solve<Day10>(std::istream& ins, std::ostream& outs)
         inputs.push_back(std::stoi(s));
     }
 
-    auto pos {0u}, skip_size {0u};
+    auto pos = 0u, skip_size = 0u;
     aoc::knot_hash_round(list, inputs, pos, skip_size);
     outs << "(Part 1) Result = " << (list[0] * list[1]) << std::endl;
 
     // Part 2
     // setup hex output formatting
-    auto format {outs.flags()};
+    auto format = outs.flags();
     outs << std::setfill('0') << std::hex;
 
     outs << "(Part 2) Hash   = ";

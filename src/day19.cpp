@@ -67,14 +67,14 @@ void solve<Day19>(std::istream& ins, std::ostream& outs)
                 return s.size() == grid.front().size();
             }));
 
-    const auto start_pos {grid.front().find("|")};
+    const auto start_pos = grid.front().find("|");
     assert(start_pos != std::string::npos);
 
     std::ostringstream result;
-    auto               dir      {direction::down};
-    auto               x        {static_cast<int>(start_pos)};
-    auto               y        {0};
-    auto               step_ctr {1};
+    auto               dir      = direction::down;
+    auto               x        = static_cast<int>(start_pos);
+    auto               y        = 0;
+    auto               step_ctr = 1;
     while (can_move(grid, x, y, dir))
     {
         ++step_ctr;

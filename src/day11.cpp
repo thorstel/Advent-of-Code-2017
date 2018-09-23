@@ -12,7 +12,7 @@
 // to determine the distance.
 static constexpr int distance(const std::tuple<int, int, int>& pos)
 {
-    const auto [x, y, z] {pos};
+    const auto [x, y, z] = pos;
     return std::max({std::abs(x), std::abs(y), std::abs(z)});
 }
 
@@ -42,11 +42,11 @@ void solve<Day11>(std::istream& ins, std::ostream& outs)
 
     for (std::string dir; std::getline(iss, dir, ',');)
     {
-        const auto [x, y, z] {deltas.at(dir)};
+        const auto [x, y, z] = deltas.at(dir);
         std::get<0>(pos) += x;
         std::get<1>(pos) += y;
         std::get<2>(pos) += z;
-        max_dist          = std::max(max_dist, distance(pos));
+        max_dist = std::max(max_dist, distance(pos));
     }
 
     outs << "(Part 1) Distance     = " << distance(pos) << std::endl
