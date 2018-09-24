@@ -3,6 +3,8 @@
 
 #include <algorithm>
 #include <array>
+#include <climits>
+#include <cstdint>
 #include <fstream>
 #include <functional>
 #include <iomanip>
